@@ -1,3 +1,4 @@
+import 'package:e_commerce/HomeScreen/HomeScreen.dart';
 import 'package:e_commerce/Screens/Login_screen.dart';
 import 'package:e_commerce/Screens/Welcome_screen.dart';
 import 'package:e_commerce/constants.dart';
@@ -17,9 +18,10 @@ class MyApp extends StatelessWidget {
         title: "E-Commerce",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          useMaterial3: true,
           primaryColor: kPrimaryColor,
           scaffoldBackgroundColor: Colors.white,
         ),
-        home: LoginScreen());
+        home: MyHomeScreen());
   }
 }

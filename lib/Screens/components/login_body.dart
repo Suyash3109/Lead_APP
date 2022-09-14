@@ -3,13 +3,19 @@
 import 'package:e_commerce/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'loginbackgroundd.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  bool _isobsure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +45,25 @@ class Body extends StatelessWidget {
           ),
           TextFieldContainer(
             child: TextField(
+                obscureText: _isobsure,
                 decoration: InputDecoration(
-              icon: Icon(
-                Icons.lock,
-                color: kPrimaryColor,
-              ),
-              hintText: "Your Password",
-              border: InputBorder.none,
-            )),
+                  icon: Icon(
+                    Icons.lock,
+                    color: kPrimaryColor,
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                        _isobsure ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        _isobsure = !_isobsure;
+                      });
+                    },
+                    color: kPrimaryColor,
+                  ),
+                  hintText: "Your Password",
+                  border: InputBorder.none,
+                )),
           ),
           SizedBox(
             height: 10,
@@ -55,9 +72,11 @@ class Body extends StatelessWidget {
             borderRadius: BorderRadius.circular(29),
             child: Container(
               width: size.width * 0.8,
-              child: FlatButton(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-                  color: kPrimaryColor,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                      backgroundColor: kPrimaryColor),
                   onPressed: () {},
                   child: Text(
                     "LOGIN",
