@@ -2,9 +2,13 @@ import 'package:e_commerce/HomeScreen/HomeScreen.dart';
 import 'package:e_commerce/Screens/Login_screen.dart';
 import 'package:e_commerce/Screens/Welcome_screen.dart';
 import 'package:e_commerce/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -22,6 +26,15 @@ class MyApp extends StatelessWidget {
           primaryColor: kPrimaryColor,
           scaffoldBackgroundColor: Colors.white,
         ),
-        home: MyHomeScreen());
+        home: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: ((context, snapshot) {
+            if (snapshot.hasData) {
+              return MyHomeScreen();
+            } else {
+              return LoginScreen();
+            }
+          }),
+        ));
   }
 }
