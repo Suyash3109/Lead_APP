@@ -32,8 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
                 Fluttertoast.showToast(msg: "Login Successful"),
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => MyHomeScreen()))
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const MyHomeScreen()))
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       emailController.text = value!;
                     },
                     textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       icon: Icon(
                         Icons.email,
                         color: kPrimaryColor,
@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     textInputAction: TextInputAction.done,
                     obscureText: _isobsure,
                     decoration: InputDecoration(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.lock,
                         color: kPrimaryColor,
                       ),
@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       border: InputBorder.none,
                     )),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               ClipRRect(
@@ -137,14 +137,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: size.width * 0.8,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               vertical: 20, horizontal: 40),
                           backgroundColor: kPrimaryColor),
                       onPressed: () {
                         // print(emailController.text);
                         SignIn(emailController.text, passwordController.text);
                       },
-                      child: Text(
+                      child: const Text(
                         "LOGIN",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.white),
@@ -171,8 +171,8 @@ class TextFieldContainer extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       width: size.width * 0.8,
       decoration: BoxDecoration(
           color: kSecondaryColor, borderRadius: BorderRadius.circular(29)),
