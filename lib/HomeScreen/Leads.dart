@@ -1,5 +1,7 @@
+import 'package:e_commerce/MVC/Controller/controller.dart';
 import 'package:e_commerce/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Leads extends StatefulWidget {
   const Leads({super.key});
@@ -9,29 +11,70 @@ class Leads extends StatefulWidget {
 }
 
 class _LeadsState extends State<Leads> {
+  final CustomerController _controller = Get.put(CustomerController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kSecondaryColor,
-      // color: Colors.black,
-      appBar: AppBar(
-        backgroundColor: kPrimaryColor,
-        // centerTitle: true,
-        // leading: IconButton(
-        //   icon: Icon(
-        //     Icons.menu,
-        //     color: Colors.white,
-        //   ),
-        //   onPressed: (() {}),
-        // ),
-        title: Text(
-          "Leads",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+        backgroundColor: kSecondaryColor,
+        // color: Colors.black,
+        appBar: AppBar(
+          scrolledUnderElevation: 10.0,
+          elevation: 10,
+
+          backgroundColor: kPrimaryColor,
+          // centerTitle: true,
+          // leading: IconButton(
+          //   icon: Icon(
+          //     Icons.menu,
+          //     color: Colors.white,
+          //   ),
+          //   onPressed: (() {}),
+          // ),
+          title: Text(
+            "Customers",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ),
-      ),
-    );
+        body: Obx(
+          () => Visibility(
+              visible: !_controller.isLoaded.value,
+              replacement: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              child: ListView.builder(
+                  itemCount: _controller.customerModel[0].length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      // focusNode: FocusNode(debugLabel: "drcfvg"),
+                      onTap: () {},
+                      focusColor: Colors.red,
+                      child: Card(
+                        shadowColor: kPrimaryColor,
+                        color: kSecondaryColor,
+                        margin: EdgeInsets.all(5),
+                        elevation: 10,
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                _controller.customerModel[0][index].company
+                                    .toString(),
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(
+                                _controller.customerModel[0][index].address
+                                    .toString(),
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  })),
+        ));
   }
 }

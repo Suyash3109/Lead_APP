@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names
+
 import 'dart:developer';
 import 'dart:math';
 
