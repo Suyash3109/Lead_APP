@@ -1,4 +1,5 @@
 import 'package:e_commerce/MVC/Models/Customer_model.dart';
+import 'package:e_commerce/MVC/Models/detail_model.dart';
 import 'package:http/http.dart' as http;
 
 class RemoteServices {
@@ -7,11 +8,11 @@ class RemoteServices {
       'authtoken':
           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiQ2xpZW50IE1vYmlsZSIsIm5hbWUiOiJDbGllbnQgTW9iaWxlICIsIkFQSV9USU1FIjoxNjYyMDM3NTg1fQ.Mitu-l1fcEXf9FyaXCBvXv3vSHfhA2sy6FFLzOAo0ws',
       'Cookie':
-          'csrf_cookie_name=f0bdd55b5a516e033ebcf3c301722c03; sp_session=8r0mre20l68oou2uea4ie5ap4b6he161'
+          'csrf_cookie_name=1025ec366bf973ca2a3483d4b09df000; sp_session=4611tu6a02vmpe8vgnaavvrqu14fo4qa'
     };
     var client = http.Client();
     var uri = Uri.parse(
-      'https://easel.inkcasa.com/crm/api/customers',
+      'https://easel.inkcasa.com/crm/api/leads',
     );
 
     var response = await client.get(uri, headers: headers);
@@ -19,6 +20,30 @@ class RemoteServices {
       var json = response.body;
 
       return customerModelFromJson(json);
+    }
+  }
+}
+
+class DetailServices {
+  static Future leaddetails(var Id) async {
+    var headers = {
+      'authtoken':
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiQ2xpZW50IE1vYmlsZSIsIm5hbWUiOiJDbGllbnQgTW9iaWxlICIsIkFQSV9USU1FIjoxNjYyMDM3NTg1fQ.Mitu-l1fcEXf9FyaXCBvXv3vSHfhA2sy6FFLzOAo0ws',
+      'Cookie':
+          'csrf_cookie_name=34cc836a7616f1c71009a904815b016e; sp_session=2bdtqcpn0nporbdm9ici3lkad9f6hl85'
+    };
+
+    var client = http.Client();
+    var uri = Uri.parse(
+      'https://easel.inkcasa.com/crm/api/leads/?id=$Id',
+    );
+
+    var response = await client.get(uri, headers: headers);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      var json = response.body;
+
+      return getdetailsFromJson(json);
     }
   }
 }

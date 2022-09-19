@@ -32,8 +32,8 @@ class _HomePage_ViewState extends State<HomePage_View> {
             itemCount: _controller.customerModel[0].length,
             itemBuilder: (context, index) {
               return Container(
-                child: Text(
-                    _controller.customerModel[0][index].company.toString()),
+                child:
+                    Text(_controller.customerModel[0][index].name.toString()),
               );
             }),
         replacement: const Center(

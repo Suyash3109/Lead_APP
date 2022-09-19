@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:e_commerce/HomeScreen/Details.dart';
 import 'package:e_commerce/MVC/Controller/controller.dart';
 import 'package:e_commerce/constants.dart';
 import 'package:flutter/material.dart';
@@ -49,23 +52,28 @@ class _LeadsState extends State<Leads> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       // focusNode: FocusNode(debugLabel: "drcfvg"),
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => DetailsPage(
+                              Id: _controller.customerModel[0][index].id,
+                            ));
+                      },
                       focusColor: Colors.red,
                       child: Card(
                         shadowColor: kPrimaryColor,
                         color: kSecondaryColor,
+                        // ignore: prefer_const_constructors
                         margin: EdgeInsets.all(5),
                         elevation: 10,
                         child: Column(
                           children: [
                             ListTile(
                               title: Text(
-                                _controller.customerModel[0][index].company
+                                _controller.customerModel[0][index].name
                                     .toString(),
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
-                                _controller.customerModel[0][index].address
+                                _controller.customerModel[0][index].email
                                     .toString(),
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
