@@ -7,7 +7,7 @@ import '../Models/Customer_model.dart';
 import 'Services.dart';
 
 class CustomerController extends GetxController {
-  var customerModel = [].obs;
+  RxList<CustomerModel> customerModel = <CustomerModel>[].obs;
   RxBool isLoaded = true.obs;
 
   var lead_details = [].obs;
@@ -18,9 +18,9 @@ class CustomerController extends GetxController {
     try {
       var customerModel1 = await RemoteServices.getPosts();
       if (customerModel1 != null) {
-        customerModel.assign(customerModel1);
+        customerModel.assignAll(customerModel1);
       }
-      // log(customerModel.toString());
+      // log(customerModel1.toString());
     } finally {
       isLoaded(false);
     }

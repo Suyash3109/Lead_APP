@@ -4,11 +4,10 @@
 
 import 'dart:convert';
 
-List<Getdetails> getdetailsFromJson(String str) =>
-    List<Getdetails>.from(json.decode(str).map((x) => Getdetails.fromJson(x)));
+Getdetails getdetailsFromJson(String? str) =>
+    Getdetails.fromJson(json.decode(str!));
 
-String getdetailsToJson(List<Getdetails> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String? getdetailsToJson(Getdetails data) => json.encode(data.toJson());
 
 class Getdetails {
   Getdetails({
@@ -51,33 +50,35 @@ class Getdetails {
     this.isdefault,
     this.statusName,
     this.sourceName,
+    this.attachments,
+    this.publicUrl,
     this.customfields,
   });
 
   String? id;
   String? hash;
   String? name;
-  dynamic title;
+  String? title;
   dynamic company;
-  dynamic description;
+  String? description;
   String? country;
-  dynamic zip;
-  dynamic city;
-  dynamic state;
-  dynamic address;
+  String? zip;
+  String? city;
+  String? state;
+  String? address;
   String? assigned;
   DateTime? dateadded;
   String? fromFormId;
   String? status;
   String? source;
-  dynamic lastcontact;
-  DateTime? dateassigned;
-  DateTime? lastStatusChange;
+  DateTime? lastcontact;
+  dynamic dateassigned;
+  dynamic lastStatusChange;
   String? addedfrom;
-  dynamic email;
+  String? email;
   dynamic website;
   String? leadorder;
-  dynamic phonenumber;
+  String? phonenumber;
   dynamic dateConverted;
   String? lost;
   String? junk;
@@ -87,26 +88,28 @@ class Getdetails {
   String? isPublic;
   dynamic defaultLanguage;
   String? clientId;
-  dynamic leadValue;
+  String? leadValue;
   String? statusorder;
   String? color;
   String? isdefault;
   String? statusName;
   String? sourceName;
+  List<dynamic>? attachments;
+  String? publicUrl;
   List<Customfield>? customfields;
 
-  factory Getdetails.fromJson(Map<String, dynamic> json) => Getdetails(
+  factory Getdetails.fromJson(Map<String?, dynamic> json) => Getdetails(
         id: json["id"] == null ? null : json["id"],
         hash: json["hash"] == null ? null : json["hash"],
         name: json["name"] == null ? null : json["name"],
-        title: json["title"],
+        title: json["title"] == null ? null : json["title"],
         company: json["company"],
-        description: json["description"],
+        description: json["description"] == null ? null : json["description"],
         country: json["country"] == null ? null : json["country"],
-        zip: json["zip"],
-        city: json["city"],
-        state: json["state"],
-        address: json["address"],
+        zip: json["zip"] == null ? null : json["zip"],
+        city: json["city"] == null ? null : json["city"],
+        state: json["state"] == null ? null : json["state"],
+        address: json["address"] == null ? null : json["address"],
         assigned: json["assigned"] == null ? null : json["assigned"],
         dateadded: json["dateadded"] == null
             ? null
@@ -114,18 +117,16 @@ class Getdetails {
         fromFormId: json["from_form_id"] == null ? null : json["from_form_id"],
         status: json["status"] == null ? null : json["status"],
         source: json["source"] == null ? null : json["source"],
-        lastcontact: json["lastcontact"],
-        dateassigned: json["dateassigned"] == null
+        lastcontact: json["lastcontact"] == null
             ? null
-            : DateTime.parse(json["dateassigned"]),
-        lastStatusChange: json["last_status_change"] == null
-            ? null
-            : DateTime.parse(json["last_status_change"]),
+            : DateTime.parse(json["lastcontact"]),
+        dateassigned: json["dateassigned"],
+        lastStatusChange: json["last_status_change"],
         addedfrom: json["addedfrom"] == null ? null : json["addedfrom"],
-        email: json["email"],
+        email: json["email"] == null ? null : json["email"],
         website: json["website"],
         leadorder: json["leadorder"] == null ? null : json["leadorder"],
-        phonenumber: json["phonenumber"],
+        phonenumber: json["phonenumber"] == null ? null : json["phonenumber"],
         dateConverted: json["date_converted"],
         lost: json["lost"] == null ? null : json["lost"],
         junk: json["junk"] == null ? null : json["junk"],
@@ -139,47 +140,48 @@ class Getdetails {
         isPublic: json["is_public"] == null ? null : json["is_public"],
         defaultLanguage: json["default_language"],
         clientId: json["client_id"] == null ? null : json["client_id"],
-        leadValue: json["lead_value"],
+        leadValue: json["lead_value"] == null ? null : json["lead_value"],
         statusorder: json["statusorder"] == null ? null : json["statusorder"],
         color: json["color"] == null ? null : json["color"],
         isdefault: json["isdefault"] == null ? null : json["isdefault"],
         statusName: json["status_name"] == null ? null : json["status_name"],
         sourceName: json["source_name"] == null ? null : json["source_name"],
+        attachments: json["attachments"] == null
+            ? null
+            : List<dynamic>.from(json["attachments"].map((x) => x)),
+        publicUrl: json["public_url"] == null ? null : json["public_url"],
         customfields: json["customfields"] == null
             ? null
             : List<Customfield>.from(
                 json["customfields"].map((x) => Customfield.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "id": id == null ? null : id,
         "hash": hash == null ? null : hash,
         "name": name == null ? null : name,
-        "title": title,
+        "title": title == null ? null : title,
         "company": company,
-        "description": description,
+        "description": description == null ? null : description,
         "country": country == null ? null : country,
-        "zip": zip,
-        "city": city,
-        "state": state,
-        "address": address,
+        "zip": zip == null ? null : zip,
+        "city": city == null ? null : city,
+        "state": state == null ? null : state,
+        "address": address == null ? null : address,
         "assigned": assigned == null ? null : assigned,
         "dateadded": dateadded == null ? null : dateadded!.toIso8601String(),
         "from_form_id": fromFormId == null ? null : fromFormId,
         "status": status == null ? null : status,
         "source": source == null ? null : source,
-        "lastcontact": lastcontact,
-        "dateassigned": dateassigned == null
-            ? null
-            : "${dateassigned!.year.toString().padLeft(4, '0')}-${dateassigned!.month.toString().padLeft(2, '0')}-${dateassigned!.day.toString().padLeft(2, '0')}",
-        "last_status_change": lastStatusChange == null
-            ? null
-            : lastStatusChange!.toIso8601String(),
+        "lastcontact":
+            lastcontact == null ? null : lastcontact!.toIso8601String(),
+        "dateassigned": dateassigned,
+        "last_status_change": lastStatusChange,
         "addedfrom": addedfrom == null ? null : addedfrom,
-        "email": email,
+        "email": email == null ? null : email,
         "website": website,
         "leadorder": leadorder == null ? null : leadorder,
-        "phonenumber": phonenumber,
+        "phonenumber": phonenumber == null ? null : phonenumber,
         "date_converted": dateConverted,
         "lost": lost == null ? null : lost,
         "junk": junk == null ? null : junk,
@@ -192,12 +194,16 @@ class Getdetails {
         "is_public": isPublic == null ? null : isPublic,
         "default_language": defaultLanguage,
         "client_id": clientId == null ? null : clientId,
-        "lead_value": leadValue,
+        "lead_value": leadValue == null ? null : leadValue,
         "statusorder": statusorder == null ? null : statusorder,
         "color": color == null ? null : color,
         "isdefault": isdefault == null ? null : isdefault,
         "status_name": statusName == null ? null : statusName,
         "source_name": sourceName == null ? null : sourceName,
+        "attachments": attachments == null
+            ? null
+            : List<dynamic>.from(attachments!.map((x) => x)),
+        "public_url": publicUrl == null ? null : publicUrl,
         "customfields": customfields == null
             ? null
             : List<dynamic>.from(customfields!.map((x) => x.toJson())),
@@ -213,12 +219,12 @@ class Customfield {
   String? label;
   String? value;
 
-  factory Customfield.fromJson(Map<String, dynamic> json) => Customfield(
+  factory Customfield.fromJson(Map<String?, dynamic> json) => Customfield(
         label: json["label"] == null ? null : json["label"],
         value: json["value"] == null ? null : json["value"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "label": label == null ? null : label,
         "value": value == null ? null : value,
       };

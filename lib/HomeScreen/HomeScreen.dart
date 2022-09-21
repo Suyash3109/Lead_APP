@@ -23,6 +23,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBody: true,
         backgroundColor: kSecondaryColor,
         // appBar: AppBar(
         //   backgroundColor: kPrimaryColor,
@@ -57,7 +58,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
               color: Colors.white,
             ),
           ],
-          backgroundColor: kSecondaryColor,
+          backgroundColor: Colors.transparent,
           color: kPrimaryColor,
           buttonBackgroundColor: kPrimaryColor,
           animationDuration: Duration(milliseconds: 300),

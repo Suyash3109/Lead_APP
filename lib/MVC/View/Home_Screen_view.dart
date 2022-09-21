@@ -29,11 +29,10 @@ class _HomePage_ViewState extends State<HomePage_View> {
         visible: _controller.isLoaded.value,
         // ignore: sort_child_properties_last
         child: ListView.builder(
-            itemCount: _controller.customerModel[0].length,
+            itemCount: _controller.customerModel.length,
             itemBuilder: (context, index) {
               return Container(
-                child:
-                    Text(_controller.customerModel[0][index].name.toString()),
+                child: Text(_controller.customerModel[index].name.toString()),
               );
             }),
         replacement: const Center(

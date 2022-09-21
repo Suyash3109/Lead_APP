@@ -35,7 +35,7 @@ class DetailServices {
 
     var client = http.Client();
     var uri = Uri.parse(
-      'https://easel.inkcasa.com/crm/api/leads/?id=$Id',
+      'https://easel.inkcasa.com/crm/api/leads/$Id',
     );
 
     var response = await client.get(uri, headers: headers);

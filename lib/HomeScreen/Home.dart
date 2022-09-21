@@ -38,7 +38,7 @@ class _HOmeState extends State<HOme> {
 
       body: Visibility(
           child: ListView.builder(
-              itemCount: _controller.customerModel[0].length,
+              itemCount: _controller.customerModel.length,
               itemBuilder: (context, index) {
                 return Container();
               })),

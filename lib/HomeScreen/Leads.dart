@@ -48,13 +48,13 @@ class _LeadsState extends State<Leads> {
                 child: CircularProgressIndicator(),
               ),
               child: ListView.builder(
-                  itemCount: _controller.customerModel[0].length,
+                  itemCount: _controller.customerModel.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       // focusNode: FocusNode(debugLabel: "drcfvg"),
                       onTap: () {
                         Get.to(() => DetailsPage(
-                              Id: _controller.customerModel[0][index].id,
+                              Id: _controller.customerModel[index].id,
                             ));
                       },
                       focusColor: Colors.red,
@@ -68,12 +68,12 @@ class _LeadsState extends State<Leads> {
                           children: [
                             ListTile(
                               title: Text(
-                                _controller.customerModel[0][index].name
+                                _controller.customerModel[index].name
                                     .toString(),
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
-                                _controller.customerModel[0][index].email
+                                _controller.customerModel[index].email
                                     .toString(),
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
