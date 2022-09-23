@@ -61,7 +61,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           backgroundColor: Colors.transparent,
           color: kPrimaryColor,
           buttonBackgroundColor: kPrimaryColor,
-          animationDuration: Duration(milliseconds: 300),
+          animationDuration: Duration(milliseconds: 800),
           animationCurve: Curves.easeOut,
           onTap: _onItemTapped,
         ),

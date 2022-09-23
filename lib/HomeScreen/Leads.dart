@@ -15,14 +15,35 @@ class Leads extends StatefulWidget {
 
 class _LeadsState extends State<Leads> {
   final CustomerController _controller = Get.put(CustomerController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: kSecondaryColor,
-        // color: Colors.black,
-        appBar: AppBar(
+        // appBar: AppBar(),
+        body: NestedScrollView(
+      // floatHeaderSlivers: true,
+      headerSliverBuilder: (context, innerBoxIsScrolled) => [
+        SliverAppBar(
+          shadowColor: kPrimaryColor,
+
+          // pinned: true,
+          // floating: true,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
+          toolbarHeight: 100,
+          // flexibleSpace: Text("wrsgfs"),
           scrolledUnderElevation: 10.0,
           elevation: 10,
+          actions: [
+            IconButton(
+                padding: EdgeInsets.only(right: 20),
+                onPressed: () {},
+                icon: Icon(
+                  Icons.search,
+                  color: Colors.white,
+                  size: 30,
+                ))
+          ],
 
           backgroundColor: kPrimaryColor,
           // centerTitle: true,
@@ -34,19 +55,22 @@ class _LeadsState extends State<Leads> {
           //   onPressed: (() {}),
           // ),
           title: Text(
-            "Customers",
+            "L E A D S",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
         ),
-        body: Obx(
-          () => Visibility(
-              visible: !_controller.isLoaded.value,
-              replacement: const Center(
-                child: CircularProgressIndicator(),
-              ),
+      ],
+      body: Obx(
+        () => Visibility(
+            visible: !_controller.isLoaded.value,
+            replacement: const Center(
+              child: CircularProgressIndicator(),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
                   itemCount: _controller.customerModel.length,
                   itemBuilder: (context, index) {
@@ -82,7 +106,9 @@ class _LeadsState extends State<Leads> {
                         ),
                       ),
                     );
-                  })),
-        ));
+                  }),
+            )),
+      ),
+    ));
   }
 }

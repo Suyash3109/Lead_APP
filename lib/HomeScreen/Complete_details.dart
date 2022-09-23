@@ -11,7 +11,9 @@ class CompleteDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 10,
+      elevation: 45,
+      borderOnForeground: true,
+      // surfaceTintColor: kSecondaryColor,
       color: kSecondaryColor,
       shadowColor: kPrimaryColor,
       shape: RoundedRectangleBorder(

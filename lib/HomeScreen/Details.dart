@@ -5,9 +5,12 @@ import 'package:e_commerce/HomeScreen/Notes.dart';
 import 'package:e_commerce/MVC/Controller/controller.dart';
 import 'package:e_commerce/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:get/get.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 
 class DetailsPage extends StatefulWidget {
   var Id;
@@ -35,6 +38,33 @@ class _DetailsPageState extends State<DetailsPage> {
     // TODO: implement dispose
     widget.Id;
     super.dispose();
+  }
+
+  String message = "This is a test message";
+
+  void _sendMessage(String message) async {
+    // String recipents = "${(_controller.lead_details[0].phonenumber)}";
+    String _result = await sendSMS(
+            message: message,
+            recipients: [_controller.lead_details[0].phonenumber])
+        .catchError((onError) {
+      print(onError);
+    });
+    print(_result);
+  }
+
+  void send_email() async {
+    final Email email = Email(
+      body: 'Email body',
+      subject: 'Email subject',
+      recipients: ['${_controller.lead_details[0].email}'],
+      // cc: ['cc@example.com'],
+      // bcc: ['bcc@example.com'],
+      // attachmentPaths: ['/path/to/attachment.zip'],
+      isHTML: false,
+    );
+
+    await FlutterEmailSender.send(email);
   }
 
   @override
@@ -121,90 +151,106 @@ class _DetailsPageState extends State<DetailsPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
-                            height: 40,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1, color: Colors.blue),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.call,
-                                    color: Colors.blue,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "CALL",
-                                    style: TextStyle(
+                          InkWell(
+                            // splashColor: kPrimaryColor,
+
+                            onTap: () => launch(
+                                "tel://${_controller.lead_details[0].phonenumber}"),
+                            child: Container(
+                              height: 40,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 1, color: Colors.blue),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.call,
                                       color: Colors.blue,
-                                      fontWeight: FontWeight.bold,
                                     ),
-                                  )
-                                ],
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "CALL",
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                          Container(
-                            height: 40,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1, color: Colors.green),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.chat,
-                                    color: Colors.green,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "TEXT",
-                                    style: TextStyle(
+                          InkWell(
+                            onTap: () {
+                              _sendMessage(message);
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 1, color: Colors.green),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.chat,
                                       color: Colors.green,
-                                      fontWeight: FontWeight.bold,
                                     ),
-                                  )
-                                ],
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "TEXT",
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                          Container(
-                            height: 40,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1, color: Colors.red),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.email_sharp,
-                                    color: Colors.red,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "EMAIL",
-                                    style: TextStyle(
+                          InkWell(
+                            onTap: send_email,
+                            child: Container(
+                              height: 40,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 1, color: Colors.red),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.email_sharp,
                                       color: Colors.red,
-                                      fontWeight: FontWeight.bold,
                                     ),
-                                  )
-                                ],
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "EMAIL",
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
