@@ -23,26 +23,28 @@ class _NotesState extends State<Notes> {
       shadowColor: kPrimaryColor,
       child: Padding(
         padding: const EdgeInsets.all(30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _controller.lead_details[0].description.toString(),
-              style: TextStyle(
-                color: kPrimaryColor,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _controller.lead_details[0].description.toString(),
+                style: TextStyle(
+                  color: kPrimaryColor,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              _controller.lead_details[0].customfields[0].value.toString(),
-              style: TextStyle(
-                color: kPrimaryColor,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+              Text(
+                _controller.lead_details[0].customfields[0].value.toString(),
+                style: TextStyle(
+                  color: kPrimaryColor,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

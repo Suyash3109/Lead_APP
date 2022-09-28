@@ -2,6 +2,7 @@
 
 import 'package:e_commerce/HomeScreen/Complete_details.dart';
 import 'package:e_commerce/HomeScreen/Notes.dart';
+import 'package:e_commerce/HomeScreen/edit.dart';
 import 'package:e_commerce/MVC/Controller/controller.dart';
 import 'package:e_commerce/constants.dart';
 import 'package:flutter/material.dart';
@@ -105,6 +106,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   onSelected: (item) {
                     switch (item) {
                       case 'Edit':
+                        Get.to(() => EditLead());
                     }
                   })
             ],
