@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:e_commerce/HomeScreen/Details.dart';
@@ -101,112 +102,120 @@ class _LeadsState extends State<Leads> {
           ),
         ],
 
-        body: Obx(
-            () => _controller.isLoaded.value && _controller.loadingsearch.value
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: search != ""
-                        ? ListView.builder(
-                            itemCount: _controller.search_lead.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                // focusNode: FocusNode(debugLabel: "drcfvg"),
-                                onTap: () {
-                                  Get.to(() => DetailsPage(
-                                        Id: _controller.search_lead[index].id,
-                                      ));
-                                },
-                                focusColor: kPrimaryColor,
-                                child: Card(
-                                  shadowColor: kPrimaryColor,
-                                  color: kSecondaryColor,
-                                  // ignore: prefer_const_constructors
-                                  margin: EdgeInsets.all(10),
-                                  elevation: 10,
-                                  child: Column(
-                                    children: [
-                                      ListTile(
-                                        title: Text(
-                                          _controller.search_lead[index].name
-                                              .toString(),
-                                          style: GoogleFonts.lateef(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 25),
+        body: RefreshIndicator(
+          color: kPrimaryColor,
+          strokeWidth: 2,
+          backgroundColor: kSecondaryColor,
+          onRefresh: () => _controller.getdata(),
+          child: Obx(() =>
+              _controller.isLoaded.value && _controller.loadingsearch.value
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: search != ""
+                          ? ListView.builder(
+                              itemCount: _controller.search_lead.length,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  // focusNode: FocusNode(debugLabel: "drcfvg"),
+                                  onTap: () {
+                                    Get.to(() => DetailsPage(
+                                          Id: _controller.search_lead[index].id,
+                                        ));
+                                  },
+                                  focusColor: kPrimaryColor,
+                                  child: Card(
+                                    shadowColor: kPrimaryColor,
+                                    color: kSecondaryColor,
+                                    // ignore: prefer_const_constructors
+                                    margin: EdgeInsets.all(10),
+                                    elevation: 10,
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          title: Text(
+                                            _controller.search_lead[index].name
+                                                .toString(),
+                                            style: GoogleFonts.lateef(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 25),
+                                          ),
+                                          subtitle: Text(
+                                            _controller.search_lead[index].email
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         ),
-                                        subtitle: Text(
-                                          _controller.search_lead[index].email
-                                              .toString(),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            })
-                        : ListView.builder(
-                            // reverse: true,
-                            itemCount: _controller.customerModel.length,
-                            itemBuilder: (context, index) {
-                              int itemCount = _controller.customerModel.length;
-                              int reversedIndex = itemCount - 1 - index;
-                              return InkWell(
-                                // focusNode: FocusNode(debugLabel: "drcfvg"),
-                                onTap: () {
-                                  Get.to(() => DetailsPage(
-                                        Id: _controller
-                                            .customerModel[reversedIndex].id,
-                                      ));
-                                },
-                                focusColor: kPrimaryColor,
-                                child: Card(
-                                  shadowColor: kPrimaryColor,
-                                  color: kSecondaryColor,
-                                  // ignore: prefer_const_constructors
-                                  margin: EdgeInsets.all(10),
-                                  elevation: 20,
-                                  child: Column(
-                                    children: [
-                                      ListTile(
-                                        title: Text(
-                                          _controller
-                                              .customerModel[reversedIndex].name
-                                              .toString(),
-                                          style: GoogleFonts.lateef(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 25),
-                                        ),
-                                        subtitle: Text(
-                                          _controller
-                                              .customerModel[reversedIndex]
-                                              .email
-                                              .toString(),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        trailing: Text(
-                                          timeago.format(DateTime.parse(
+                                );
+                              })
+                          : ListView.builder(
+                              // reverse: true,
+                              itemCount: _controller.customerModel.length,
+                              itemBuilder: (context, index) {
+                                int itemCount =
+                                    _controller.customerModel.length;
+                                int reversedIndex = itemCount - 1 - index;
+                                return InkWell(
+                                  // focusNode: FocusNode(debugLabel: "drcfvg"),
+                                  onTap: () {
+                                    Get.to(() => DetailsPage(
+                                          Id: _controller
+                                              .customerModel[reversedIndex].id,
+                                        ));
+                                  },
+                                  focusColor: kPrimaryColor,
+                                  child: Card(
+                                    shadowColor: kPrimaryColor,
+                                    color: kSecondaryColor,
+                                    // ignore: prefer_const_constructors
+                                    margin: EdgeInsets.all(10),
+                                    elevation: 20,
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          title: Text(
                                             _controller
                                                 .customerModel[reversedIndex]
-                                                .dateadded
+                                                .name
                                                 .toString(),
-                                          )),
-                                          style: TextStyle(
-                                              color: kPrimaryColor,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20),
+                                            style: GoogleFonts.lateef(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 25),
+                                          ),
+                                          subtitle: Text(
+                                            _controller
+                                                .customerModel[reversedIndex]
+                                                .email
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          trailing: Text(
+                                            timeago.format(DateTime.parse(
+                                              _controller
+                                                  .customerModel[reversedIndex]
+                                                  .dateadded
+                                                  .toString(),
+                                            )),
+                                            style: TextStyle(
+                                                color: kPrimaryColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            }),
-                  )),
+                                );
+                              }),
+                    )),
+        ),
       ),
       // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
