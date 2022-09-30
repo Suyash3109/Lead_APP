@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/state_manager.dart';
+import 'package:shake/shake.dart';
 
 import 'components/background.dart';
 import 'components/login_body.dart';
@@ -22,6 +23,23 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    ShakeDetector detector = ShakeDetector.autoStart(
+      onPhoneShake: () {
+        SignIn(emailController.text, passwordController.text);
+      },
+      minimumShakeCount: 1,
+      shakeSlopTimeMS: 500,
+      shakeCountResetTime: 3000,
+      shakeThresholdGravity: 2.7,
+    );
+    detector.startListening();
+  }
+
   final _auth = FirebaseAuth.instance;
   final _formkey = GlobalKey<FormState>();
   bool _isobsure = true;

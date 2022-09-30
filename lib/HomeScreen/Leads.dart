@@ -7,10 +7,13 @@ import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:e_commerce/HomeScreen/Details.dart';
 import 'package:e_commerce/HomeScreen/add_lead.dart';
 import 'package:e_commerce/MVC/Controller/controller.dart';
+import 'package:e_commerce/Screens/Login_screen.dart';
 import 'package:e_commerce/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shake/shake.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class Leads extends StatefulWidget {
@@ -21,6 +24,12 @@ class Leads extends StatefulWidget {
 }
 
 class _LeadsState extends State<Leads> {
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginScreen()));
+  }
+
   final CustomerController _controller = Get.put(CustomerController());
 
   final textController = TextEditingController();
@@ -30,11 +39,23 @@ class _LeadsState extends State<Leads> {
   void initState() {
     textController.addListener(() => _printLatestValue());
     super.initState();
+
+    ShakeDetector detector = ShakeDetector.autoStart(
+      onPhoneShake: () {
+        logout(context);
+      },
+      minimumShakeCount: 2,
+      shakeSlopTimeMS: 500,
+      shakeCountResetTime: 3000,
+      shakeThresholdGravity: 2.7,
+    );
+    detector.startListening();
   }
 
   @override
   void dispose() {
     textController.dispose();
+
     super.dispose();
   }
 

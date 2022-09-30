@@ -1,7 +1,14 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/HomeScreen/edit.dart';
+import 'package:e_commerce/MVC/Models/User_model.dart';
 import 'package:e_commerce/Screens/Login_screen.dart';
 import 'package:e_commerce/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Account extends StatefulWidget {
@@ -12,6 +19,38 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+  User? user = FirebaseAuth.instance.currentUser;
+  usermodel loggedInuser = usermodel();
+  Stream<DocumentSnapshot> snapshot =
+      FirebaseFirestore.instance.collection("users").doc().snapshots();
+  var val;
+  String? imageurl;
+
+  @override
+  void initState() {
+    setState(() {
+      getUser();
+    });
+    // TODO: implement initState
+    super.initState();
+  }
+
+  Future getUser() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      val = value;
+      loggedInuser = usermodel.fromMap(value.data());
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  var myMenuItems = <String>['Edit', 'Logout'];
+
   Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
@@ -21,49 +60,156 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kSecondaryColor,
-      // color: Colors.yellow,
-      appBar: AppBar(
-        backgroundColor: kPrimaryColor,
-        // centerTitle: true,
-        leading: IconButton(
-          icon: Icon(
-            Icons.logout_outlined,
-            color: Colors.white,
-          ),
-          onPressed: (() {
-            logout(context);
-          }),
-        ),
-        title: Text(
-          "Accounts",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-      ),
-      body: Center(
-          child: Text(
-        " Hey, this is my homepage, so I have to say something about myself. Sometimes it is hard to introduce yourself because you know yourself so well that you do not know where to start with. Let me give a try to see what kind of image you have about me through my self-description. I hope that my impression about myself and your impression about me are not so different. Here it goes.",
-        style: GoogleFonts.playfairDisplay(
-          fontSize: 30,
-          fontWeight: FontWeight.bold,
-        ),
-      )),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 100),
-        child: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: kPrimaryColor,
-          elevation: 10,
-          child: Icon(
-            Icons.add_circle_sharp,
-            color: kSecondaryColor,
-          ),
-        ),
-      ),
-    );
+        body: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  SliverAppBar(
+                    shadowColor: kPrimaryColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(bottom: Radius.circular(35))),
+                    toolbarHeight: 100,
+                    elevation: 20,
+                    forceElevated: true,
+                    pinned: true,
+                    actions: [
+                      PopupMenuButton(
+                          offset: Offset(0, 60),
+                          color: kPrimaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 50,
+                          icon: Icon(Icons.more_vert, color: kSecondaryColor),
+                          itemBuilder: (BuildContext context) {
+                            return myMenuItems.map((String choice) {
+                              return PopupMenuItem<String>(
+                                child: Text(choice,
+                                    style: TextStyle(color: kSecondaryColor)),
+                                value: choice,
+                              );
+                            }).toList();
+                          },
+                          onSelected: (item) {
+                            switch (item) {
+                              case 'Edit':
+                                Get.to(() => EditLead());
+                                break;
+                              case 'Logout':
+                                Get.to(() => logout(context));
+                            }
+                          })
+                    ],
+                  )
+                ],
+            body: RefreshIndicator(
+              onRefresh: () async {
+                setState(() {
+                  getUser();
+                });
+              },
+              child: Column(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 20),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Stack(
+                        children: [
+                          Center(
+                            child: FutureBuilder(
+                              future: FirebaseStorage.instance
+                                  .ref("profilepic")
+                                  .child('userpic')
+                                  .child('${user!.uid}userpic')
+                                  .getDownloadURL(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return ClipOval(
+                                    child: Stack(children: [
+                                      CircleAvatar(
+                                        radius: 80,
+                                        child: Image.network(
+                                            snapshot.data.toString()),
+                                        backgroundColor: Colors.black,
+                                      ),
+                                      Positioned(
+                                          right: 2,
+                                          bottom: 10,
+                                          child: SizedBox(
+                                            height: 46,
+                                            width: 46,
+                                            child: IconButton(
+                                              highlightColor: kPrimaryColor,
+                                              hoverColor: kSecondaryColor,
+                                              icon: Icon(
+                                                  Icons.camera_alt_outlined),
+                                              onPressed: () {
+                                                // Get.to(()=> );
+                                              },
+                                            ),
+                                          ))
+                                    ]),
+                                  );
+                                }
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const ClipOval(
+                                    child: const CircleAvatar(
+                                      radius: 80,
+                                    ),
+                                  );
+                                }
+                                return const Center(
+                                  child: Text("Something went wrong"),
+                                );
+                              },
+                            ),
+                          ),
+                          Card(
+                            elevation: 9.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(9.0),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Container(
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: kPrimaryColor,
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            )));
   }
 }
