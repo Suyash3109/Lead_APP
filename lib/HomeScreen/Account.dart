@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/HomeScreen/edit.dart';
 import 'package:e_commerce/MVC/Models/User_model.dart';
@@ -28,10 +30,10 @@ class _AccountState extends State<Account> {
 
   @override
   void initState() {
-    setState(() {
-      getUser();
-    });
-    // TODO: implement initState
+    log("message");
+    // setState(() {
+    getUser();
+    // });
     super.initState();
   }
 
@@ -41,6 +43,7 @@ class _AccountState extends State<Account> {
         .doc(user!.uid)
         .get()
         .then((value) {
+      log(value.toString());
       val = value;
       loggedInuser = usermodel.fromMap(value.data());
       if (mounted) {
@@ -59,16 +62,47 @@ class _AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
+    final savebutton = Material(
+      elevation: 25,
+      shadowColor: kPrimaryColor,
+      borderOnForeground: true,
+      borderRadius: BorderRadius.circular(30),
+      color: kPrimaryColor,
+      child: MaterialButton(
+        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+        minWidth: 200,
+        onPressed: () {
+          logout(context);
+        },
+        child: const Text(
+          "L O G O U T",
+          textAlign: TextAlign.center,
+          // ignore: unnecessary_const
+          style: const TextStyle(
+            fontSize: 20,
+            color: kSecondaryColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+
     return Scaffold(
         body: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
                   SliverAppBar(
                     shadowColor: kPrimaryColor,
+                    backgroundColor: kPrimaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(bottom: Radius.circular(35))),
                     toolbarHeight: 100,
                     elevation: 20,
+                    title: Text(
+                      "M Y   A C C O U N T",
+                      style: TextStyle(
+                          color: kSecondaryColor, fontWeight: FontWeight.bold),
+                    ),
                     forceElevated: true,
                     pinned: true,
                     actions: [
@@ -200,9 +234,43 @@ class _AccountState extends State<Account> {
                                         BorderRadius.all(Radius.circular(20))),
                                 child: Padding(
                                   padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Name :- ${loggedInuser.firstname} ${loggedInuser.secondname}",
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            )
+                            ),
+                            SizedBox(height: 20),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Container(
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Email :- ${loggedInuser.email}",
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 100,
+                            ),
                           ],
                         ),
                       ),

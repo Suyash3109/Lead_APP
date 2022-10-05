@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:e_commerce/HomeScreen/Details.dart';
