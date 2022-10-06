@@ -1,9 +1,18 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:developer';
+
 import 'package:e_commerce/MVC/Controller/Services.dart';
 import 'package:e_commerce/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+class LeadStatus {
+  LeadStatus(this.id, this.name);
+
+  final String name;
+  final int id;
+}
 
 class AddLead extends StatefulWidget {
   const AddLead({super.key});
@@ -14,6 +23,9 @@ class AddLead extends StatefulWidget {
 
 class _AddLeadState extends State<AddLead> {
   final _formkey = GlobalKey<FormState>();
+
+  var dropDownvalue;
+  var selectedUser;
 
   TextEditingController namecontroller = TextEditingController();
   final phonenumbercontroller = TextEditingController();
@@ -32,6 +44,24 @@ class _AddLeadState extends State<AddLead> {
   final contactedTodaycontroller = TextEditingController();
   final isPubliccontroller = TextEditingController();
   final budgetcontroller = TextEditingController();
+
+  var items = [
+    LeadStatus(11, "Assigned to Dhawal - Surat"),
+    LeadStatus(12, "Assigned to Kshitij - Mumbai"),
+    LeadStatus(7, "Costing Approved"),
+    LeadStatus(1, "Customer"),
+    LeadStatus(8, "Designed Submitted"),
+    LeadStatus(13, "Future Lead"),
+    LeadStatus(4, "Get Layout"),
+    LeadStatus(3, "Junk Lead"),
+    LeadStatus(10, "Lost Lead"),
+    LeadStatus(2, "Not Connected"),
+    LeadStatus(14, "Only Furniture"),
+    LeadStatus(9, "Qualified"),
+    LeadStatus(6, "Quotation Submitted"),
+    LeadStatus(5, "Requested for Quote"),
+    LeadStatus(15, "Under 7 Lacs"),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +92,10 @@ class _AddLeadState extends State<AddLead> {
               customContactDatecontroller.text,
               contactedTodaycontroller.text,
               isPubliccontroller.text,
+              selectedUser,
             );
 
-            Get.back();
+            // Get.back();
           }
         },
         child: const Text(
@@ -583,6 +614,71 @@ class _AddLeadState extends State<AddLead> {
                             ),
                           ),
                         ),
+                        Container(
+                            margin: EdgeInsets.all(20),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Status :- ",
+                                    style: TextStyle(
+                                        color: kPrimaryColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17),
+                                  ),
+                                  DropdownButton<LeadStatus>(
+                                    alignment: Alignment.bottomRight,
+                                    value: dropDownvalue,
+                                    elevation: 10,
+                                    items: items.map((LeadStatus lvalue) {
+                                      return DropdownMenuItem<LeadStatus>(
+                                          value: lvalue,
+                                          child: Text(
+                                            lvalue.name,
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                              color: kPrimaryColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ));
+                                    }).toList(),
+                                    onChanged: (LeadStatus? newValue) {
+                                      log(newValue!.id.toString());
+                                      setState(() {
+                                        dropDownvalue = newValue;
+
+                                        selectedUser = newValue.id.toString();
+                                      });
+                                    },
+                                  ),
+                                ])
+                            // child: TextFormField(
+                            //   textInputAction: TextInputAction.next,
+                            //   // controller: contactedTodaycontroller,
+                            //   // onChanged: ((value) {
+                            //   //   contactedTodaycontroller.text = value;
+                            //   // }),
+                            //   decoration: InputDecoration(
+                            //     labelText: 'Status :- ',
+                            //     labelStyle: TextStyle(
+                            //         color: kPrimaryColor,
+                            //         fontWeight: FontWeight.bold),
+                            //     floatingLabelBehavior: FloatingLabelBehavior.auto,
+                            //     focusColor: kPrimaryColor,
+                            //     // border: OutlineInputBorder(
+                            //     //     borderRadius: BorderRadius.circular(100),
+                            //     //     borderSide: BorderSide(
+                            //     //       color: kPrimaryColor,
+                            //     //     )),
+                            //     focusedBorder: OutlineInputBorder(
+                            //         borderRadius: BorderRadius.circular(100),
+                            //         borderSide: BorderSide(
+                            //           color: kPrimaryColor,
+                            //         )),
+                            //   ),
+                            // ),
+                            ),
                         SizedBox(
                           height: 25,
                         ),

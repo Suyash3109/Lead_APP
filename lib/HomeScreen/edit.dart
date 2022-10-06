@@ -39,7 +39,12 @@ class _EditLeadState extends State<EditLead> {
           ),
         ),
       ],
-      body: Container(),
+      body: Scaffold(
+        backgroundColor: kSecondaryColor,
+        body: Column(
+          children: [Container()],
+        ),
+      ),
     ));
   }
 }

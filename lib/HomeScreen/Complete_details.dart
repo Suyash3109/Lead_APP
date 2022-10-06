@@ -23,33 +23,34 @@ class CompleteDetails extends StatefulWidget {
 
 class _CompleteDetailsState extends State<CompleteDetails> {
   final CustomerController _controller = Get.find<CustomerController>();
-  var dropDownvalue = LeadStatus(2, "Not Connected");
+  // var dropDownvalue;
+  // var selectedUser;
 
-  var selectedUser;
-
-  var items = [
-    LeadStatus(11, "Assigned to Dhawal - Surat"),
-    LeadStatus(12, "Assigned to Kshitij - Mumbai"),
-    LeadStatus(7, "Costing Approved"),
-    LeadStatus(1, "Customer"),
-    LeadStatus(8, "Designed Submitted"),
-    LeadStatus(13, "Future Lead"),
-    LeadStatus(4, "Get Layout"),
-    LeadStatus(3, "Junk Lead"),
-    LeadStatus(10, "Lost Lead"),
-    LeadStatus(2, "Not Connected"),
-    LeadStatus(14, "Only Furniture"),
-    LeadStatus(9, "Qualified"),
-    LeadStatus(6, "Quotation Submitted"),
-    LeadStatus(5, "Requested for Quote"),
-    LeadStatus(15, "Under 7 Lacs"),
-  ];
-  @override
-  void initState() {
-    dropDownvalue = items[0];
-    // TODO: implement initState
-    super.initState();
-  }
+  var items = {
+    11: "Assigned to Dhawal - Surat",
+    12: "Assigned to Kshitij - Mumbai",
+    7: "Costing Approved",
+    1: "Customer",
+    8: "Designed Submitted",
+    13: "Future Lead",
+    4: "Get Layout",
+    3: "Junk Lead",
+    10: "Lost Lead",
+    2: "Not Connected",
+    14: "Only Furniture",
+    9: "Qualified",
+    6: "Quotation Submitted",
+    5: "Requested for Quote",
+    15: "Under 7 Lacs",
+  };
+//   @override
+//   void initState() {
+//     dropDownvalue = LeadStatus(
+//         int.parse(_controller.lead_details[0].status), dropDownvalue.name);
+// // var Status = _controller.lead_details[0].status;
+//     // TODO: implement initState
+//     super.initState();
+//   }
 
   @override
   Widget build(BuildContext context) {
@@ -313,29 +314,14 @@ class _CompleteDetailsState extends State<CompleteDetails> {
                       fontSize: 20,
                     ),
                   ),
-                  DropdownButton<LeadStatus>(
-                    alignment: Alignment.bottomRight,
-                    value: dropDownvalue,
-                    elevation: 10,
-                    items: items.map((LeadStatus lvalue) {
-                      return DropdownMenuItem<LeadStatus>(
-                          value: lvalue,
-                          child: Text(
-                            lvalue.name,
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: kPrimaryColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ));
-                    }).toList(),
-                    onChanged: (LeadStatus? newValue) {
-                      log(newValue!.id.toString());
-                      setState(() {
-                        dropDownvalue = newValue;
-                      });
-                    },
-                  )
+                  Text(
+                    items[int.parse(_controller.lead_details[0].status)]
+                        .toString(),
+                    style: TextStyle(
+                        color: kPrimaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ],
